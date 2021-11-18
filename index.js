@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const sanitizeEnabled = ! Boolean(process.env.readability_sanitize_disabled)
 const debug = Boolean(process.env.DEBUGME)
 // const handleError = err => console.error(err.toString());
 
@@ -34,14 +35,19 @@ const readability = (dom, url) => {
     console.error(`Error: Readability returned nothing for url "${url}". This usually happens on empty input.`);
     return;
   }
-  if (debug) {
-    console.error(JSON.stringify(article));
-  }
+
+  // if (debug) {
+  //   console.error(JSON.stringify(article));
+  // }
+
   if (article.title) {
     console.log('<p><b>', sanitizeHtml(article.title), '</b></p>')
   }
-  // console.log(article.content);
-  console.log(sanitizeHtml(article.content, sanOpts));
+  if (sanitizeEnabled) {
+    console.log(sanitizeHtml(article.content, sanOpts));
+  } else {
+    console.log(article.content);
+  }
 };
 
 
@@ -50,10 +56,15 @@ const run = (url) => {
     const getStdin = require('get-stdin');
     var doc = await getStdin();
 
-    const clean = DOMPurify.sanitize(doc);
+    var clean = doc;
+    if (sanitizeEnabled) {
+      clean = DOMPurify.sanitize(clean);
+    }
+
     if (debug) {
       console.error('url: ', url)
     }
+
     const options = {
       features: {
         FetchExternalResources: false,
