@@ -62,6 +62,9 @@ const run = (url) => {
     }
 
     if (debug) {
+      if (! sanitizeEnabled) {
+        console.error("readability: sanitization disabled by user option.")
+      }
       console.error('url: ', url)
     }
 
