@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+/*
+ - @docs https://github.com/mozilla/readability
+*/
 
 const sanitizeEnabled = ! Boolean(process.env.readability_sanitize_disabled)
 const debug = Boolean(process.env.DEBUGME)
@@ -22,6 +25,7 @@ const sanOpts = {
   allowedTags: false,
   allowedAttributes: false
 }
+
 const program = require('commander');
 const pkg = require('./package.json');
 var { Readability } = require('@mozilla/readability');
@@ -29,16 +33,19 @@ var { Readability } = require('@mozilla/readability');
 const readability = (dom, url) => {
   // Happens on missing file
   if (!dom) return;
-  const article = new Readability(dom.window.document).parse();
+  const opts = {
+    keepClasses: true
+  };
+  const article = new Readability(dom.window.document, opts).parse();
 
   if (!article) {
     console.error(`Error: Readability returned nothing for url "${url}". This usually happens on empty input.`);
     return;
   }
 
-  // if (debug) {
-  //   console.error(JSON.stringify(article));
-  // }
+  if (debug) {
+    console.error(JSON.stringify(article));
+  }
 
   if (article.title) {
     console.log('<p><b>', sanitizeHtml(article.title), '</b></p>')

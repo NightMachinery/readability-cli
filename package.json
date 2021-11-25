@@ -1,6 +1,6 @@
 {
   "name": "mozilla-readability-cli",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A CLI for Mozilla Readability. Get clean, uncluttered, ready-to-read HTML from any webpage!",
   "keywords": [
     "readability",
@@ -15,17 +15,16 @@
   },
   "main": "index.js",
   "license": "Unlicense",
-  "author": "Fereidoon Mehri (http://github.com/NightMachinary)",
+  "author": "Feraidoon Mehri (http://github.com/NightMachinary)",
   "dependencies": {
-    "@mozilla/readability": "^0.3.0",
-    "commander": "^5.1.0",
-    "dompurify": "^2.0.11",
+    "@mozilla/readability": "^0.4.1",
+    "commander": "^8.3.0",
+    "dompurify": "^2.3.3",
     "get-stdin": "^8.0.0",
-    "jsdom": "^16.2.2",
-    "sanitize-html": "^1.23.0"
+    "jsdom": "^18.1.0",
+    "sanitize-html": "^2.5.3"
   },
   "bin": {
     "readability": "./index.js"
-  },
-  "devDependencies": {}
+  }
 }
